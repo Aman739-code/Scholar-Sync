@@ -79,11 +79,11 @@ export default function GradesPage() {
         </div>
 
         {[
-          { icon: "code", iconBg: "bg-primary-container", iconColor: "text-primary", badge: "In Progress", badgeBg: "bg-tertiary-container text-on-tertiary-container", code: "CS-402", title: "Advanced Data Structures", prof: "Dr. Helena Vance • 4 Units", grade: "A-", pct: "91.4%", barW: "91.4%", barColor: "bg-primary", feedback: "\"Exceptional performance on the B-Tree implementation. Ensure your documentation covers edge cases for concurrent access in the final module.\"", instructorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRBZP87-6fWfnOiu3pwx-lcydGvLvtAxs0Nt07Ct5TPmyBGpfVKI01RRlzxGRw7G7xuJGh3sSc-3Q8e0vlktUXGa1axYvhByKWQCBo427LzARRNvjEnRH_wFg7-j1uTdUSvHfcbLQtWJWTBovSFFi5OJTiMkBjR81YYCJQ2EOplGXHXdSwc-Slzb-qyf7CNbMiPGDeMz8E4S5rHu0qV7XhGZ-jM3fdOIpAaWhw8sgIExBWEh2arA0OSDl9O70rim5HvtX5hn45BjGt" },
-          { icon: "history_edu", iconBg: "bg-surface-container-high", iconColor: "text-on-surface-variant", badge: "Completed", badgeBg: "bg-secondary-container text-on-secondary-container", code: "HIS-210", title: "Modern Political Philosophy", prof: "Prof. Marcus Thorne • 3 Units", grade: "A", pct: "96.0%", barW: "96%", barColor: "bg-primary", feedback: "\"Your critique of the Social Contract theory was sophisticated and well-cited. A standout paper in the mid-term reviews.\"", instructorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuACzjNeAf251RR0JRdQGoH9m_KALs7WOZN-cxu9hj8co9BkA1yHX324oDLkrO1XqwSmisSaRC0ieI8cQvi7oD8ZAQpblw-mVouqWQbo8RzhEEzAjhT7tjqqnItKpR1DupmKgoXYmOPOD2YL3lCmdqMBaxbg9YkvF8mhMNCqjBuMtg4ob8Hq4UKEiOR4LuCNlCb4Ir2wOdXhdmJCPL302_wz2C292WRNvVCqmGG2IZcXsRpcMq2WnzVDBcihHLgQmv8MQ9iU-io_u0Wr" },
-          { icon: "database", iconBg: "bg-tertiary-container/30", iconColor: "text-tertiary", badge: "In Progress", badgeBg: "bg-tertiary-container text-on-tertiary-container", code: "CS-305", title: "Database Systems", prof: "Dr. Sarah Jenkins • 3 Units", grade: "B+", pct: "88.2%", barW: "88.2%", barColor: "bg-tertiary", feedback: "\"Strong understanding of SQL joins. Focus on Query Optimization and indexing strategies for the next lab to boost your grade.\"", instructorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuCCKd8j7trgQdT9L8htMrlqu8tYRERP_WgGoOqdji0K7SKhhbrQD5bT8bkfLv8SA48ibr5WG7lKHrPvzcOy4SU4fLtiNlX48wxipN1LAmS0CHTQ0N-teAkQWuckneIWwScX5Ihi52Qszh7QttPTpdU6rntvAjwAdpXfTkW5bA0eLzWNBDp0hzSQc7ki0OY0P_UM0asPe15Xy_DrcY2wRsNI0ac5YtEvOkZn5vl19yn_lAaAUCG6EgZCZQz1lxNnbQGfj_IwVL7YSAvG" },
+          { courseId: "advanced-data-structures", icon: "code", iconBg: "bg-primary-container", iconColor: "text-primary", badge: "In Progress", badgeBg: "bg-tertiary-container text-on-tertiary-container", code: "CS-402", title: "Advanced Data Structures", prof: "Dr. Helena Vance • 4 Units", grade: "A-", pct: "91.4%", barW: "91.4%", barColor: "bg-primary", feedback: "\"Exceptional performance on the B-Tree implementation. Ensure your documentation covers edge cases for concurrent access in the final module.\"", instructorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRBZP87-6fWfnOiu3pwx-lcydGvLvtAxs0Nt07Ct5TPmyBGpfVKI01RRlzxGRw7G7xuJGh3sSc-3Q8e0vlktUXGa1axYvhByKWQCBo427LzARRNvjEnRH_wFg7-j1uTdUSvHfcbLQtWJWTBovSFFi5OJTiMkBjR81YYCJQ2EOplGXHXdSwc-Slzb-qyf7CNbMiPGDeMz8E4S5rHu0qV7XhGZ-jM3fdOIpAaWhw8sgIExBWEh2arA0OSDl9O70rim5HvtX5hn45BjGt" },
+          { courseId: "discrete-math", icon: "history_edu", iconBg: "bg-surface-container-high", iconColor: "text-on-surface-variant", badge: "Completed", badgeBg: "bg-secondary-container text-on-secondary-container", code: "HIS-210", title: "Modern Political Philosophy", prof: "Prof. Marcus Thorne • 3 Units", grade: "A", pct: "96.0%", barW: "96%", barColor: "bg-primary", feedback: "\"Your critique of the Social Contract theory was sophisticated and well-cited. A standout paper in the mid-term reviews.\"", instructorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuACzjNeAf251RR0JRdQGoH9m_KALs7WOZN-cxu9hj8co9BkA1yHX324oDLkrO1XqwSmisSaRC0ieI8cQvi7oD8ZAQpblw-mVouqWQbo8RzhEEzAjhT7tjqqnItKpR1DupmKgoXYmOPOD2YL3lCmdqMBaxbg9YkvF8mhMNCqjBuMtg4ob8Hq4UKEiOR4LuCNlCb4Ir2wOdXhdmJCPL302_wz2C292WRNvVCqmGG2IZcXsRpcMq2WnzVDBcihHLgQmv8MQ9iU-io_u0Wr" },
+          { courseId: "info-systems", icon: "database", iconBg: "bg-tertiary-container/30", iconColor: "text-tertiary", badge: "In Progress", badgeBg: "bg-tertiary-container text-on-tertiary-container", code: "CS-305", title: "Database Systems", prof: "Dr. Sarah Jenkins • 3 Units", grade: "B+", pct: "88.2%", barW: "88.2%", barColor: "bg-tertiary", feedback: "\"Strong understanding of SQL joins. Focus on Query Optimization and indexing strategies for the next lab to boost your grade.\"", instructorImg: "https://lh3.googleusercontent.com/aida-public/AB6AXuCCKd8j7trgQdT9L8htMrlqu8tYRERP_WgGoOqdji0K7SKhhbrQD5bT8bkfLv8SA48ibr5WG7lKHrPvzcOy4SU4fLtiNlX48wxipN1LAmS0CHTQ0N-teAkQWuckneIWwScX5Ihi52Qszh7QttPTpdU6rntvAjwAdpXfTkW5bA0eLzWNBDp0hzSQc7ki0OY0P_UM0asPe15Xy_DrcY2wRsNI0ac5YtEvOkZn5vl19yn_lAaAUCG6EgZCZQz1lxNnbQGfj_IwVL7YSAvG" },
         ].map((course) => (
-          <div key={course.code} className="bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-outline-variant/10 group">
+          <Link to={`/courses/${course.courseId}`} key={course.code} className="block bg-surface-container-lowest rounded-3xl p-6 shadow-sm border border-outline-variant/10 group hover:border-primary/10 transition-all">
             <div className="flex flex-col lg:flex-row gap-8">
               <div className="lg:w-1/3 flex gap-4">
                 <div className={`w-16 h-16 rounded-3xl ${course.iconBg} flex items-center justify-center shrink-0`}>
@@ -94,7 +94,7 @@ export default function GradesPage() {
                     <span className={`text-[10px] font-bold px-2 py-0.5 ${course.badgeBg} rounded-full uppercase`}>{course.badge}</span>
                     <span className="text-[10px] font-bold text-on-surface-variant">{course.code}</span>
                   </div>
-                  <h4 className="text-lg font-bold font-headline">{course.title}</h4>
+                  <h4 className="text-lg font-bold font-headline group-hover:text-primary transition-colors">{course.title}</h4>
                   <p className="text-xs text-on-surface-variant">{course.prof}</p>
                 </div>
               </div>
@@ -115,7 +115,7 @@ export default function GradesPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </section>
 

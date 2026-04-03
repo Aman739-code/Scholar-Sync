@@ -8,9 +8,12 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import DashboardPage from "./pages/DashboardPage";
 import CoursesPage from "./pages/CoursesPage";
+import CourseDetailPage from "./pages/CourseDetailPage";
 import AssignmentsPage from "./pages/AssignmentsPage";
+import AssignmentDetailPage from "./pages/AssignmentDetailPage";
 import GradesPage from "./pages/GradesPage";
 import LibraryPage from "./pages/LibraryPage";
+import LibraryItemPage from "./pages/LibraryItemPage";
 
 function App() {
   return (
@@ -25,9 +28,12 @@ function App() {
         {/* Dashboard routes — SideNavBar + Footer */}
         <Route path="/dashboard" element={<DashboardLayout><DashboardPage /></DashboardLayout>} />
         <Route path="/courses" element={<DashboardLayout><CoursesPage /></DashboardLayout>} />
+        <Route path="/courses/:courseId" element={<DashboardLayout><CourseDetailPage /></DashboardLayout>} />
         <Route path="/assignments" element={<DashboardLayout><AssignmentsPage /></DashboardLayout>} />
+        <Route path="/assignments/:assignmentId" element={<DashboardLayout><AssignmentDetailPage /></DashboardLayout>} />
         <Route path="/grades" element={<DashboardLayout><GradesPage /></DashboardLayout>} />
         <Route path="/library" element={<DashboardLayout><LibraryPage /></DashboardLayout>} />
+        <Route path="/library/:itemId" element={<DashboardLayout><LibraryItemPage /></DashboardLayout>} />
       </Routes>
     </Router>
   );

@@ -49,7 +49,7 @@ function PopularCourses() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {/* Featured Course */}
-          <div className="md:col-span-2 md:row-span-2 bg-surface-container-lowest rounded-3xl p-8 flex flex-col justify-between group cursor-pointer relative overflow-hidden">
+          <Link to="/courses/quantum-computing" className="md:col-span-2 md:row-span-2 bg-surface-container-lowest rounded-3xl p-8 flex flex-col justify-between group cursor-pointer relative overflow-hidden">
             <div className="relative z-10">
               <span className="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold mb-6 inline-block">Best Seller</span>
               <h3 className="text-3xl font-bold font-headline mb-4">Advanced Quantum Computing</h3>
@@ -64,16 +64,16 @@ function PopularCourses() {
               <span className="text-sm font-medium text-on-surface-variant">Enrolled students</span>
             </div>
             <img alt="Quantum" className="absolute top-0 right-0 w-1/2 h-full object-cover opacity-10 grayscale group-hover:grayscale-0 group-hover:opacity-20 transition-all duration-500 rounded-3xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrokmwUiV-lF_Q2s_AJdRcqWrEX1W0I3S8WeNIy-0J6MDOSz0gy4daMv923SNUpfjbKgDV656CxKBHnAmWYfJ1Ak5xfObdg_WYYblG4Gdk29E9RPccoSJjzQXJ5IyqFHGo_I7E_osLYTTBw-hlRKV0WtbYprqbzp4QA7zTtZiD-ItQP_-DwU6Boo_SdyqylZr1-UBBMHZlvOsN7eb3KLxI4pwtTjX3QXTDMUjPNmHD1-KGELrEqoA4kSIRx3n2Blfy3NqyyEcXIxEC" />
-          </div>
+          </Link>
 
           {/* Course Cards */}
           {[
-            { label: "DATA SCIENCE", title: "Neural Network Ethics", weeks: "12 Weeks", rating: "4.9", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCCsU0rT8CXk9nfXeoTeHwkwqWEB0zvcZF9vYTEYERn3P-D1Vz0OUhel0_n7J85uo7ums8FnGIv2NWcjbk859jz4C4puD19bhgEqJ2mcOyk0jay00-b3YBK9h6-zYXkRzcS58hTAdpmHwfbJIII6JbqxYz-910mAhYMjmxUSRKlvZp2hJ3y18rLMf1aloPEA9HSX8H-2ks5UDgmXe83KkhwFuWkip-ij75Rm2aJLaB6gbXSHrofrvujg0Fw9FBjb7E81pPJdwJ3N5J8" },
-            { label: "BIOSCIENCE", title: "Molecular Architecture", weeks: "8 Weeks", rating: "4.8", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCexiVxTFwLc8hjJAmOMR3TNrW_HQTmxFJG9_Rg-JyM6PjfrSpx-3623P-QwgTmuzla5bz1fyAPU9uIAOEverQDF55BYyaxICi0n_C7d0nYQlfUaAgFhq3UhUOljj5Yne_4eHzlaTrnYXGLFh2pv2aBERB4NuP_mCtvIRU-dIm8S0LX1Vs_Ntqp28pr0_t2U8q9FTrhVzojlYYCKIsZbOqlJ-SsBLpS8YfTCPVOGEqKRtD4AG61Yln6lUc2xi0O8go9o7wc6OnJQ4SE" },
-            { label: "MANAGEMENT", title: "Venture Economics 101", weeks: "10 Weeks", rating: "5.0", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAtTrq11GF96fitXn85AGsuh8f9UqcMqJ0xaUTH5BdDDi-yU9hpX_dn8_wie7FOO8akSiWgbOls09hPRzUN96FIdlfJRuhMW47jxKu8UPrROUs9wlKj33G0W-PzHKKOkOa8yZBe-ThnC3Rpg5RwSgLw7o_Ttn1cyGq2vJfP7OWDL6d6oc6eVFnJIm4guU341RuKWaFOBtNPJlOBMN0CgtRw3n-coThXEuKA_in0KltZ1rNRQhribS-8k5A73EW0HekTxA5faJefGFiz" },
-            { label: "ARCHITECTURE", title: "Sustainable Urbanism", weeks: "14 Weeks", rating: "4.7", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDzR2j8iN623yk6SIUPkMWnOQOYc4aAWVPC9oV6zlY-O429uDLHTn3WyXz-s6yRrhpuHiYBwKUSfe40xsA-hOsVMFWE2jl-s7jXmqr9F1Q2ynX6-_AXYkEtOGjcQDtkCeCtgOr3JWr91RnTeoaQuvMGl_c3wG3bM_B4X09wjmK36REA9DCqMcfE6Df1SvGYPU8c0UF7UdC1OuMhEQRfm7Fko8wcbTWLu13UtTlJp1nhdHx5Mx3Vsw8LKhaIyB3xatTYL51W2NHovc4A" },
+            { id: "neural-networks", label: "DATA SCIENCE", title: "Neural Network Ethics", weeks: "12 Weeks", rating: "4.9", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCCsU0rT8CXk9nfXeoTeHwkwqWEB0zvcZF9vYTEYERn3P-D1Vz0OUhel0_n7J85uo7ums8FnGIv2NWcjbk859jz4C4puD19bhgEqJ2mcOyk0jay00-b3YBK9h6-zYXkRzcS58hTAdpmHwfbJIII6JbqxYz-910mAhYMjmxUSRKlvZp2hJ3y18rLMf1aloPEA9HSX8H-2ks5UDgmXe83KkhwFuWkip-ij75Rm2aJLaB6gbXSHrofrvujg0Fw9FBjb7E81pPJdwJ3N5J8" },
+            { id: "advanced-data-structures", label: "BIOSCIENCE", title: "Molecular Architecture", weeks: "8 Weeks", rating: "4.8", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCexiVxTFwLc8hjJAmOMR3TNrW_HQTmxFJG9_Rg-JyM6PjfrSpx-3623P-QwgTmuzla5bz1fyAPU9uIAOEverQDF55BYyaxICi0n_C7d0nYQlfUaAgFhq3UhUOljj5Yne_4eHzlaTrnYXGLFh2pv2aBERB4NuP_mCtvIRU-dIm8S0LX1Vs_Ntqp28pr0_t2U8q9FTrhVzojlYYCKIsZbOqlJ-SsBLpS8YfTCPVOGEqKRtD4AG61Yln6lUc2xi0O8go9o7wc6OnJQ4SE" },
+            { id: "discrete-math", label: "MANAGEMENT", title: "Venture Economics 101", weeks: "10 Weeks", rating: "5.0", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAtTrq11GF96fitXn85AGsuh8f9UqcMqJ0xaUTH5BdDDi-yU9hpX_dn8_wie7FOO8akSiWgbOls09hPRzUN96FIdlfJRuhMW47jxKu8UPrROUs9wlKj33G0W-PzHKKOkOa8yZBe-ThnC3Rpg5RwSgLw7o_Ttn1cyGq2vJfP7OWDL6d6oc6eVFnJIm4guU341RuKWaFOBtNPJlOBMN0CgtRw3n-coThXEuKA_in0KltZ1rNRQhribS-8k5A73EW0HekTxA5faJefGFiz" },
+            { id: "info-systems", label: "ARCHITECTURE", title: "Sustainable Urbanism", weeks: "14 Weeks", rating: "4.7", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDzR2j8iN623yk6SIUPkMWnOQOYc4aAWVPC9oV6zlY-O429uDLHTn3WyXz-s6yRrhpuHiYBwKUSfe40xsA-hOsVMFWE2jl-s7jXmqr9F1Q2ynX6-_AXYkEtOGjcQDtkCeCtgOr3JWr91RnTeoaQuvMGl_c3wG3bM_B4X09wjmK36REA9DCqMcfE6Df1SvGYPU8c0UF7UdC1OuMhEQRfm7Fko8wcbTWLu13UtTlJp1nhdHx5Mx3Vsw8LKhaIyB3xatTYL51W2NHovc4A" },
           ].map((course) => (
-            <Link to="/courses" key={course.title} className="bg-surface-container-lowest rounded-3xl p-6 flex flex-col gap-6 hover:translate-y-[-4px] transition-all">
+            <Link to={`/courses/${course.id}`} key={course.title} className="bg-surface-container-lowest rounded-3xl p-6 flex flex-col gap-6 hover:translate-y-[-4px] transition-all">
               <div className="w-full aspect-video rounded-3xl overflow-hidden relative">
                 <img alt={course.label} className="w-full h-full object-cover" src={course.img} />
                 <div className="absolute top-2 left-2 px-2 py-1 bg-surface-container-lowest/90 backdrop-blur rounded-xl text-[10px] font-bold">{course.label}</div>
