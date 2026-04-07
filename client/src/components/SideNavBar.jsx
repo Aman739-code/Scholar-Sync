@@ -1,4 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const navItems = [
   { icon: "dashboard", label: "Dashboard", to: "/dashboard" },
@@ -9,6 +10,8 @@ const navItems = [
 ];
 
 export default function SideNavBar() {
+  const { user, logoutUser } = useAuth();
+
   return (
     <aside className="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-slate-50 dark:bg-slate-950 flex flex-col p-6 space-y-8 z-40 border-r border-transparent">
       {/* Brand */}
@@ -18,13 +21,15 @@ export default function SideNavBar() {
 
       {/* Profile */}
       <div className="flex items-center space-x-3 p-3 bg-slate-100 dark:bg-slate-900 rounded-3xl">
-        <img
-          className="w-10 h-10 rounded-full object-cover"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo8FbTKqGovG8wXdZ1OR7knTSAhfv4nlTpl_G5jVCqS_-6z0EgKZ5qzxxczr4xEoc9AlPfeP7ePntjUF-rwX7fnaL2hLd__eZaJuaZ5A0nFSlHFfMMGr0Pkw53KN-4YiXYsViaDwmrUneYGnQxbHIbFL799MPX7-6n7Oj9JBikPjCV9uP08OjcP1P5GbqMa2wcx2SXwu0wTKt29WLDrbALsHcW0K-9prF5Bp6LUkozLkzjn2TsiA-fyXk7QdetWA7pVsWb6Iwzb6zM"
-          alt="Student"
-        />
+        {user?.profileImage ? (
+          <img className="w-10 h-10 rounded-full object-cover" src={user.profileImage} alt="Student" />
+        ) : (
+          <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
+            <span className="material-symbols-outlined text-primary">person</span>
+          </div>
+        )}
         <div>
-          <p className="font-manrope font-bold text-sm text-slate-900 dark:text-slate-50">Julian Academic</p>
+          <p className="font-manrope font-bold text-sm text-slate-900 dark:text-slate-50">{user?.name || "Student"}</p>
           <p className="text-xs text-slate-500 dark:text-slate-400">Computer Science • Year 3</p>
         </div>
       </div>
@@ -66,10 +71,10 @@ export default function SideNavBar() {
           <span className="material-symbols-outlined">settings</span>
           <span>Settings</span>
         </a>
-        <Link to="/login" className="flex items-center space-x-3 p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-3xl transition-all font-manrope font-medium text-sm">
+        <button onClick={logoutUser} className="w-full flex items-center space-x-3 p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 rounded-3xl transition-all font-manrope font-medium text-sm">
           <span className="material-symbols-outlined">logout</span>
           <span>Logout</span>
-        </Link>
+        </button>
       </div>
     </aside>
   );

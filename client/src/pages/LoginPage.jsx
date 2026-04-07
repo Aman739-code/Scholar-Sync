@@ -1,58 +1,93 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../api/auth";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { loginUser } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const res = await login(email, password);
+      loginUser(res.data.user, res.data.token);
+      if (res.data.user.role === "instructor") {
+        navigate("/instructor/dashboard");
+      } else {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      setError(err.response?.data?.error || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <main className="flex-grow flex items-center justify-center px-6 pt-12 pb-12 relative overflow-hidden">
-      {/* Abstract Background */}
-      <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[60%] bg-surface-container-low rounded-full blur-[120px] opacity-60"></div>
-        <div className="absolute bottom-[-10%] left-[-5%] w-[30%] h-[50%] bg-primary-container/20 rounded-full blur-[100px] opacity-40"></div>
+    <div className="min-h-[80vh] flex items-center justify-center px-4">
+      <div className="bg-white rounded-3xl shadow-xl p-10 w-full max-w-md relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-1 linear-soul"></div>
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold font-manrope text-on-surface">Welcome Back</h1>
+          <p className="text-on-surface-variant mt-2">Sign in to your ScholarSync account</p>
+        </div>
+
+        {error && (
+          <div className="bg-error-container text-on-error-container px-4 py-3 rounded-3xl mb-6 text-sm font-medium">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Student ID or Email</label>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-3 bg-surface-container-lowest border border-outline-variant/20 rounded-3xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body text-sm"
+              placeholder="julian@scholarsync.edu"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-3 bg-surface-container-lowest border border-outline-variant/20 rounded-3xl focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body text-sm"
+              placeholder="Enter your password"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 linear-soul text-on-primary rounded-full font-manrope font-bold text-sm hover:opacity-90 transition-all disabled:opacity-50"
+          >
+            {loading ? "Signing in..." : "Sign In"}
+          </button>
+        </form>
+
+        <div className="mt-6 text-center space-y-3">
+          <p className="text-sm text-on-surface-variant">
+            Don't have an account?{" "}
+            <Link to="/signup" className="text-primary font-bold hover:underline">Sign Up</Link>
+          </p>
+          <p className="text-sm text-on-surface-variant">
+            Are you an instructor?{" "}
+            <Link to="/instructor/login" className="text-primary font-bold hover:underline">Instructor Login</Link>
+          </p>
+        </div>
       </div>
-
-      <div className="w-full max-w-md">
-        <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface mb-3">Welcome back.</h1>
-          <p className="text-on-surface-variant font-body">Access your courses, research, and assignments in one curated space.</p>
-        </div>
-
-        <div className="bg-surface-container-lowest p-10 rounded-4xl shadow-[0_32px_64px_-15px_rgba(43,52,55,0.06)] relative">
-          <form className="space-y-6">
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-on-surface-variant font-label px-1" htmlFor="student_id">Email or Student ID</label>
-              <input className="w-full bg-surface-container-low border-none rounded-3xl px-4 py-3 text-on-surface placeholder:text-outline/50 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" id="student_id" name="student_id" placeholder="julian.academic@university.edu" type="text" />
-            </div>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center px-1">
-                <label className="text-sm font-medium text-on-surface-variant font-label" htmlFor="password">Password</label>
-                <a className="text-xs font-semibold text-primary hover:text-primary-dim transition-colors" href="#">Forgot Password?</a>
-              </div>
-              <input className="w-full bg-surface-container-low border-none rounded-3xl px-4 py-3 text-on-surface placeholder:text-outline/50 focus:ring-2 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" id="password" name="password" placeholder="••••••••••••" type="password" />
-            </div>
-            <Link to="/dashboard" className="block w-full linear-soul text-on-primary py-4 rounded-full font-manrope font-bold text-base hover:shadow-lg transition-all active:scale-95 active:opacity-90 mt-4 text-center">
-              Login to Dashboard
-            </Link>
-          </form>
-
-          <div className="mt-10 pt-8 border-t border-surface-container text-center">
-            <p className="text-on-surface-variant text-sm font-body">
-              New to ScholarSync?{" "}
-              <Link to="/signup" className="text-primary font-semibold hover:underline decoration-2 underline-offset-4 ml-1">Create a student account</Link>
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-12 flex justify-center items-center gap-6 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-sm">verified_user</span>
-            <span className="text-xs font-label font-medium uppercase tracking-widest">Secure Portal</span>
-          </div>
-          <div className="w-1 h-1 bg-outline-variant rounded-full"></div>
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-sm">account_balance</span>
-            <span className="text-xs font-label font-medium uppercase tracking-widest">University SSO</span>
-          </div>
-        </div>
-      </div>
-    </main>
+    </div>
   );
 }
