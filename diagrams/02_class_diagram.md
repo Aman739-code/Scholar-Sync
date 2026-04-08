@@ -488,3 +488,4 @@ classDiagram
 | **Singleton** | `DatabaseConnection` (not shown) | Ensures single DB connection pool |
 | **MVC** | Overall architecture | React views, Express controllers, Mongoose models |
 | **Decorator** | Annotations on `LibraryResource` | Adds annotation/bookmark features to any resource type |
+
