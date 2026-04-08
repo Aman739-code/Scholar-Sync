@@ -177,3 +177,4 @@ stateDiagram-v2
     note right of SCORING : Rubric-based\nweighted scoring
     note right of GPA_UPDATED : Strategy Pattern selects\ngrading algorithm
 ```
+
