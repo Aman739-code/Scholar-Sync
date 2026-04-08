@@ -308,3 +308,4 @@ graph TB
 ```
 
 > **Dependency Inversion Principle**: Services (high-level modules) never depend on Repositories/Strategies (low-level modules) directly. Both depend on abstractions (interfaces). The composition root wires concrete implementations at startup.
+
