@@ -240,3 +240,4 @@ graph TB
 | Watch Progress | Student | Library Store | `{userId, resourceId, currentTime}` |
 | Notification | System | Notification Store | `{userId, type, message, referenceId, isRead}` |
 | Email | Notification Process | Email Service | `{to, subject, body, template}` |
+
