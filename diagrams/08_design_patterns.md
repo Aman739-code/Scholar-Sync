@@ -378,3 +378,4 @@ classDiagram
 | **Singleton** | `Database` | Encapsulation | Single Responsibility |
 | **MVC** | Full Architecture | Separation of Concerns | Single Responsibility |
 | **Decorator** | `AnnotatedResource` | Inheritance + Composition | Open/Closed |
+
