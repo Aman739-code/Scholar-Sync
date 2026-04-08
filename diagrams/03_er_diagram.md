@@ -285,3 +285,4 @@ erDiagram
 | `library_resources` | `title`, `author`, `category` | Text | Full-text search |
 | `reading_progress` | `userId`, `resourceId` | Compound Unique | One progress per user-resource |
 | `notifications` | `userId`, `isRead` | Compound | Unread notifications |
+
