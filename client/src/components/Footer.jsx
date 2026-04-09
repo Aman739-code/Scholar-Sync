@@ -4,22 +4,22 @@ const footerSections = [
   {
     title: "Resources",
     links: [
-      { label: "Contact Support", to: "/contact" },
-      { label: "Help Center", to: "/help" },
+      { label: "Contact Support" },
+      { label: "Help Center" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", to: "/privacy" },
-      { label: "Terms of Service", to: "/terms" },
+      { label: "Privacy Policy" },
+      { label: "Terms of Service" },
     ],
   },
   {
     title: "Social",
     links: [
-      { label: "Instagram", to: "https://instagram.com", external: true },
-      { label: "LinkedIn", to: "https://linkedin.com", external: true },
+      { label: "Instagram" },
+      { label: "LinkedIn" },
     ],
   },
 ];
@@ -47,23 +47,9 @@ export default function Footer() {
                 <ul className="space-y-2">
                   {section.links.map((link) => (
                     <li key={link.label}>
-                      {link.external ? (
-                        <a
-                          href={link.to}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-slate-500 hover:text-blue-500 transition-colors duration-200"
-                        >
-                          {link.label}
-                        </a>
-                      ) : (
-                        <Link
-                          to={link.to}
-                          className="text-slate-500 hover:text-blue-500 transition-colors duration-200"
-                        >
-                          {link.label}
-                        </Link>
-                      )}
+                      <span className="text-slate-500 transition-colors duration-200 cursor-default">
+                        {link.label}
+                      </span>
                     </li>
                   ))}
                 </ul>
