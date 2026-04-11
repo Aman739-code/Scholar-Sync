@@ -17,10 +17,44 @@ import Grade from '../models/Grade';
 import LibraryResource from '../models/LibraryResource';
 import ResourceChapter from '../models/ResourceChapter';
 import ReadingProgress from '../models/ReadingProgress';
+import Notification from '../models/Notification';
+import SavedCollection from '../models/SavedCollection';
+
+interface SeedStats {
+  users: number;
+  courses: number;
+  modules: number;
+  enrollments: number;
+  announcements: number;
+  assignments: number;
+  submissions: number;
+  grades: number;
+  libraryResources: number;
+  resourceChapters: number;
+  readingProgress: number;
+  notifications: number;
+  savedCollections: number;
+}
 
 const seed = async () => {
   await connectDB();
   console.log('🌱 Seeding database...');
+
+  const stats: SeedStats = {
+    users: 0,
+    courses: 0,
+    modules: 0,
+    enrollments: 0,
+    announcements: 0,
+    assignments: 0,
+    submissions: 0,
+    grades: 0,
+    libraryResources: 0,
+    resourceChapters: 0,
+    readingProgress: 0,
+    notifications: 0,
+    savedCollections: 0,
+  };
 
   // Clear all collections
   await Promise.all([
@@ -28,7 +62,7 @@ const seed = async () => {
     Course.deleteMany({}), Module.deleteMany({}), Enrollment.deleteMany({}),
     Announcement.deleteMany({}), Assignment.deleteMany({}), Submission.deleteMany({}),
     Grade.deleteMany({}), LibraryResource.deleteMany({}), ResourceChapter.deleteMany({}),
-    ReadingProgress.deleteMany({}),
+    ReadingProgress.deleteMany({}), Notification.deleteMany({}), SavedCollection.deleteMany({}),
   ]);
 
   // ─── USERS ───
@@ -66,6 +100,7 @@ const seed = async () => {
     profileImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBZzP3drDySh-AmjqEK5H2G4TirlEosFOxVwzWPT1gChSPe-Stj0mreexu0vtCKwwQNzJbn8FiESlngFQEmdYvs9NaJpCygYSkhwbhMBNNAuN1Blv01AGBkawwSK84sYWrcnBSqLRpogWVokzQ3CdUnkBj9lf9TjDmzwdGtDuI8nVTX7M6FHX3W5IEiuiRGQfgwcXOVtgqCnoB7QwqLx1W9qAGaEHJy-QBQnBG_sJ2AJpv_WRfcTS71UotShN3yuHdpLavwxYBfnNRZ',
   });
   await InstructorProfile.create({ userId: instructor4._id, facultyId: 'FAC-CS-003', department: 'Computer Science', specialization: 'Neural Networks & Deep Learning', bio: 'Research scientist in ML/AI.' });
+  stats.users = 5;
 
   // ─── COURSES ───
   const courseADS = await Course.create({ title: 'Advanced Algorithms & Data Structures', code: 'CS301', slug: 'advanced-data-structures', description: 'An intensive exploration of advanced data structures and algorithmic techniques. Covers B-Trees, Red-Black Trees, hash tables, graph algorithms, amortized analysis, and randomized algorithms. Includes substantial programming assignments.', instructorId: instructor1._id, bannerImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDZRSMGnBh_YUaFh5kBeXokD6qQUXOxbG65jHIuWuBkd-bZOK7oHDap4vZXrXwG7d0BC6MOEWqcNuVTHzF938psUARm2BmbLKttLF_g-GjUfMRJ_7IECm6LH40KPb0dRO3s2V7LLrDzC-sr65CEiLiEJHdxczg36gPLgdWVZ25gok1tAYg0jHaLRhwqk9lBRC6oNvxV31Il17XADu5GJFte5Y49oCyxliaXejGgT74IeWfeSYi_QisyWWv6EEKfv8BEEsYA9_ZjR-bm', units: 4, semester: 'Fall 2024', schedule: 'Mon/Wed/Fri 9:00 AM – 10:00 AM', track: 'Computer Science', maxCapacity: 60 });
@@ -75,6 +110,7 @@ const seed = async () => {
   const courseLA = await Course.create({ title: 'Linear Algebra & Logic', code: 'MA210', slug: 'linear-algebra', description: 'A rigorous introduction to linear algebra and mathematical logic. Topics include vector spaces, linear transformations, eigenvalues, propositional and predicate logic, and proofs.', instructorId: instructor2._id, bannerImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB3g2nm1i5r0C6MO59z0JZmGZuOW9W2Rd1Y2z1TYBAz_ly60YwOxZQuuljEWgAjVtdbdgSjImWFU1Tl2Oo7ZPJIJOf49etOv9VORPwt1Sp4ZkzVkwfV7LxzTTP18m5PJAy9HucqqL8bulkZPHQH3Hzp6e01p-mBIxwMB2_tC69ltULEokC5UEpWj0SO9PtfanTfJuqv5zJ_adxjR7wX8lcRIyUKnsLakE1xQiN3A5lnJQBL6yqq6xUEq7sV3VasYxjC3HxuNCgzI0x5', units: 3, semester: 'Fall 2024', schedule: 'Tue/Thu 1:00 PM – 2:30 PM', track: 'Mathematics', maxCapacity: 60 });
   const courseNN = await Course.create({ title: 'Neural Networks & Deep Learning Essentials', code: 'CS450', slug: 'neural-networks', description: 'A deep dive into the foundations of modern AI. Covers perceptrons, backpropagation, convolutional networks, recurrent networks, transformers, and generative models.', instructorId: instructor4._id, bannerImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrokmwUiV-lF_Q2s_AJdRcqWrEX1W0I3S8WeNIy-0J6MDOSz0gy4daMv923SNUpfjbKgDV656CxKBHnAmWYfJ1Ak5xfObdg_WYYblG4Gdk29E9RPccoSJjzQXJ5IyqFHGo_I7E_osLYTTBw-hlRKV0WtbYprqbzp4QA7zTtZiD-ItQP_-DwU6Boo_SdyqylZr1-UBBMHZlvOsN7eb3KLxI4pwtTjX3QXTDMUjPNmHD1-KGELrEqoA4kSIRx3n2Blfy3NqyyEcXIxEC', units: 4, semester: 'Spring 2025', schedule: 'To be announced', track: 'Computer Science', maxCapacity: 40 });
   const courseQC = await Course.create({ title: 'Advanced Quantum Computing', code: 'CS480', slug: 'quantum-computing', description: 'A comprehensive deep-dive into qubit manipulation and quantum algorithmic structures for senior researchers.', instructorId: instructor4._id, bannerImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBrokmwUiV-lF_Q2s_AJdRcqWrEX1W0I3S8WeNIy-0J6MDOSz0gy4daMv923SNUpfjbKgDV656CxKBHnAmWYfJ1Ak5xfObdg_WYYblG4Gdk29E9RPccoSJjzQXJ5IyqFHGo_I7E_osLYTTBw-hlRKV0WtbYprqbzp4QA7zTtZiD-ItQP_-DwU6Boo_SdyqylZr1-UBBMHZlvOsN7eb3KLxI4pwtTjX3QXTDMUjPNmHD1-KGELrEqoA4kSIRx3n2Blfy3NqyyEcXIxEC', units: 4, semester: 'Spring 2025', schedule: 'To be announced', track: 'Computer Science', maxCapacity: 30 });
+  stats.courses = 7;
 
   // ─── MODULES ───
   const moduleData: Record<string, { title: string; status: string; duration: string }[]> = {
@@ -141,6 +177,7 @@ const seed = async () => {
   for (const [key, mods] of Object.entries(moduleData)) {
     allModules[key] = await Module.insertMany(mods.map((m, i) => ({ ...m, courseId: courseMap[key]._id, orderIndex: i + 1 })));
   }
+  stats.modules = Object.values(allModules).reduce((count, modules) => count + modules.length, 0);
 
   // ─── ENROLLMENTS ───
   const completedADS = allModules.ads.filter(m => m.status === 'completed').map(m => m._id);
@@ -152,6 +189,7 @@ const seed = async () => {
     { studentId: student._id, courseId: courseDM._id, progress: 42, status: 'active', completedModules: completedDM },
     { studentId: student._id, courseId: courseIS._id, progress: 88, status: 'active', completedModules: completedIS },
   ]);
+  stats.enrollments = 3;
 
   // ─── ANNOUNCEMENTS ───
   await Announcement.insertMany([
@@ -164,6 +202,7 @@ const seed = async () => {
     { courseId: courseAA._id, postedBy: instructor1._id, text: 'Midterm grades posted. Class average: 82%. Well done!', postedDate: new Date('2024-10-20') },
     { courseId: courseAA._id, postedBy: instructor1._id, text: 'Office hours moved to Thursday 3-5 PM this week only.', postedDate: new Date('2024-10-18') },
   ]);
+  stats.announcements = 8;
 
   // ─── ASSIGNMENTS ───
   const imgNN = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCbeORq6rC9nVB_eVQZ7aAUlA445wqv_JqcUWxAplhfP2IfmTjd1NcSk0UEfmG040X_4roykQUYrqfG5t2GFoiXSGpTmpiFAHkmGtABnssDiOwS9a7AadaBECvKFe9gSj8-umcwU0S8ajFdQC8OPK7f0SG3rG9-XKGE4Uko_42FaHXgllznKS4nDmsxH8V29SwHyCwpiyyPsEvOzAOuzI7OLwm0GhG4METrJ8Yl2xF3Gv2ztPvbO4qxht7oyDcAkNm2SmqC_Orl37FV';
@@ -179,16 +218,19 @@ const seed = async () => {
   const a5 = await Assignment.create({ courseId: courseAA._id, title: 'Dynamic Programming Lab', slug: 'dynamic-programming-lab', description: 'Implement solutions to three dynamic programming problems of increasing complexity.', type: 'lab', deadline: new Date('2024-10-24T23:59:00'), points: 80, status: 'due_soon', icon: 'code', bannerImage: imgAA, instructorNote: 'Start with LCS — it\'s the most straightforward.', requirements: ['Implement LCS algorithm', 'Solve Matrix Chain Multiplication', 'Design solution for Knapsack problem (0/1)', 'Include complexity analysis', 'Write unit tests'], rubric: [{ criteria: 'Correctness', weight: '40%', description: 'Correct output' }, { criteria: 'Efficiency', weight: '25%', description: 'Optimal complexity' }, { criteria: 'Code Quality', weight: '20%', description: 'Clean code' }, { criteria: 'Testing', weight: '15%', description: 'Edge cases' }], resources: [{ name: 'CLRS Chapter 15', type: 'Textbook' }, { name: 'Lab Starter Code', type: 'Code' }] });
   const a6 = await Assignment.create({ courseId: courseADS._id, title: 'Compiler Design: Lexical Analysis', slug: 'lexical-analysis', description: 'Build a lexical analyzer (tokenizer) for a simplified programming language.', type: 'lab', deadline: new Date('2024-10-18'), points: 60, status: 'available', icon: 'check_circle', bannerImage: imgADS, instructorNote: 'Good submission. Awaiting grade.', requirements: ['Tokenize keywords, identifiers, and operators', 'Handle string and numeric literals', 'Support single-line and multi-line comments', 'Error reporting with line numbers', 'Generate token stream output file'], rubric: [{ criteria: 'Tokenization', weight: '40%', description: 'Identifies all token types' }, { criteria: 'Error Handling', weight: '20%', description: 'Graceful reporting' }, { criteria: 'Edge Cases', weight: '20%', description: 'Nested comments, escape sequences' }, { criteria: 'Code Quality', weight: '20%', description: 'Clean state machine' }], resources: [{ name: 'Dragon Book Ch. 3', type: 'Textbook' }] });
   const a7 = await Assignment.create({ courseId: courseLA._id, title: 'Vector Spaces Quiz', slug: 'vector-spaces-quiz', description: 'In-class quiz covering vector spaces, subspaces, linear independence, basis, and dimension.', type: 'quiz', deadline: new Date('2024-10-27'), points: 50, status: 'available', icon: 'quiz', bannerImage: imgLA, instructorNote: 'Focus on the proof techniques from HW 3 and 4.', requirements: ['Know definitions', 'Prove subspace membership', 'Determine linear independence', 'Find a basis', 'Compute dimension'], rubric: [{ criteria: 'Definitions', weight: '20%', description: 'Correct statements' }, { criteria: 'Computational', weight: '40%', description: 'Accuracy' }, { criteria: 'Proofs', weight: '30%', description: 'Logical rigor' }, { criteria: 'Presentation', weight: '10%', description: 'Neat work' }], resources: [{ name: 'Practice Quiz', type: 'Practice' }, { name: 'Chapter 4 Review Notes', type: 'Notes' }] });
+  stats.assignments = 7;
 
   // ─── SUBMISSIONS ───
   const sub1 = await Submission.create({ assignmentId: a6._id, studentId: student._id, note: 'Completed lexical analysis implementation', submittedAt: new Date('2024-10-18T22:42:00'), status: 'submitted', files: [{ filename: 'lexer.py', mimetype: 'text/x-python', size: 15200, url: '/uploads/lexer.py' }] });
   const sub2 = await Submission.create({ assignmentId: a5._id, studentId: student._id, note: 'DP lab with all three problems solved', submittedAt: new Date('2024-10-15T20:30:00'), status: 'graded', files: [{ filename: 'dp_solutions.zip', mimetype: 'application/zip', size: 24000, url: '/uploads/dp_solutions.zip' }] });
   const sub3 = await Submission.create({ assignmentId: a7._id, studentId: student._id, note: '', submittedAt: new Date('2024-10-12T14:00:00'), status: 'graded', files: [] });
+  stats.submissions = 3;
 
   // ─── GRADES ───
   await Grade.create({ studentId: student._id, courseId: courseADS._id, assignmentId: a6._id, submissionId: sub1._id, score: 92, maxScore: 100, letterGrade: 'A-', feedback: 'Exceptional performance on the B-Tree implementation. Ensure your documentation covers edge cases for concurrent access in the final module.', gradedBy: instructor1._id, gradedAt: new Date('2024-10-10') });
   await Grade.create({ studentId: student._id, courseId: courseAA._id, assignmentId: a5._id, submissionId: sub2._id, score: 96, maxScore: 100, letterGrade: 'A', feedback: 'Your critique of the Social Contract theory was sophisticated and well-cited. A standout paper in the mid-term reviews.', gradedBy: instructor2._id, gradedAt: new Date('2024-10-08') });
   await Grade.create({ studentId: student._id, courseId: courseIS._id, assignmentId: a2._id, submissionId: sub3._id, score: 88, maxScore: 100, letterGrade: 'B+', feedback: 'Strong understanding of SQL joins. Focus on Query Optimization and indexing strategies for the next lab to boost your grade.', gradedBy: instructor3._id, gradedAt: new Date('2024-10-05') });
+  stats.grades = 3;
 
   // ─── LIBRARY RESOURCES ───
   const lib1 = await LibraryResource.create({ title: 'Principles of Neural Design', slug: 'neural-design', author: 'Peter Sterling & Simon Laughlin', year: '2021', type: 'textbook', category: 'Neuroscience', description: 'A comprehensive exploration of why neural systems are designed the way they are.', coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCOPjirJSPJ4aifofM6qdz6VSYl1RcQooTrsQwkbZAjrEKWKWswlkXEH0n4eM8WbvfzMn-enHY0rJX1O_HDHRH20mXmlmlQj3DwJecTEOSr0AO8fLKtg9porZT_aAZIW6oIXh33SSSoLkdFmEsVNVdQBqGFSXJwQlDypMP4DUkSSpDGHbYX2BFdhMa0CA7ppu4z2MNDBf1mzmSrDkgHaUfqcH8iozkFBnZlwGOhvGjYm842BrwVYYx6VApSQ8ou28m1j1pNyPzbWysq', isbn: '978-0-262-53468-0', publisher: 'MIT Press', pages: 480 });
@@ -224,14 +266,64 @@ const seed = async () => {
   ]);
   await ReadingProgress.create({ userId: student._id, resourceId: lib3._id, currentTime: '14:02', lastAccessed: new Date(Date.now() - 86400000) });
 
-  await LibraryResource.create({ title: 'Computational Fluid Dynamics', slug: 'computational-fluid-dynamics', author: 'Dr. Alan Turing', year: '2023', type: 'textbook', category: 'Engineering', description: 'A comprehensive introduction to computational techniques used to solve fluid dynamics problems.', coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDMWKB-UeVCRhFYdsr4N3ECbdlqTnXCLypJsEtsFJP6VbKj7vZrpOmB75TJ5TJbtuLkthcji9kSO5iPtQE7BP32rOnyei3DyCefNc5_ar_pWeBZfRisOE1Owe08CFcX5gk3F1BfdeTBVo3ay4VnRTDYQIcnh_NJl659uwqEMi9Cy-rsBzfRMJ4Jf_wctrRDYegY87U0lGwc9V_LNz6j1Zb22udpNz6unyAtX4aNtGqHHvKdsFIbgJG6r_UQOgwodvwM9SKkOKZHu44k', isbn: '978-0-521-84210-4', publisher: 'Cambridge University Press', pages: 520 });
-  await LibraryResource.create({ title: 'The Future of AI Governance', slug: 'ai-governance', author: 'Global Policy Review', year: '2023', type: 'journal', category: 'Political Science', description: 'An analysis of current and proposed frameworks for governing artificial intelligence.', coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDeeUhpyHPm_T9i8c55WuQ2WaHNB0iV3D9eaunNPEwfi9-t46EKIKHSh4YPRfT3SB-y285DxYvlLuFiwEDpA-iGUxjjl9jdthFCpmPZaEul2o5UyGXg6m7Pc7k89sQ7VxHs8CiuJyJFvPOT-GUVLGQgjxd_WPqIvlQfT13RakEPUVyE95QZv10X66Ov5P6e5cpk8AoE1XI4GSLXQgDilbncSDyHUQDDt-cz8hWxR3z-MH5yqWEAUWk2ayXzY7eLOm5SIozAuTg9Ivjk', issn: 'ISSN 2058-4016', publisher: 'Global Policy Review', pages: 28 });
-  await LibraryResource.create({ title: 'Linear Algebra — Session 1', slug: 'linear-algebra-session-1', author: 'MIT OpenCourseWare', year: '2023', type: 'video_lecture', category: 'Mathematics', description: 'The geometry of linear equations: row picture and column picture.', coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCmuiIE9TP9TiUUNPUwTdBp_z4tClOj-6zwFXEqjOZIDOEntTXUyjJhqaRrv0Dnba4E7lYLHaVeSn2Xwh_okFaMUj4tkekeyyxk1iy6miNu0cE_6nm_BXu_nzY_V6wIhf78x6bMwBMBkgz3_bHveYC8mdy3zC1e144WYTVaudsaF-XKsp6XseH1PCRIDX06x_BZUuC8YqGZQVaLXn6KCjTWcBun2A6IKBtbmh8yyCK4WBKgODk75V7ASj6ayArn-LiqTElgu53aiimS', series: '18.06 — MIT OCW', duration: '49:30' });
+  const lib4 = await LibraryResource.create({ title: 'Computational Fluid Dynamics', slug: 'computational-fluid-dynamics', author: 'Dr. Alan Turing', year: '2023', type: 'textbook', category: 'Engineering', description: 'A comprehensive introduction to computational techniques used to solve fluid dynamics problems.', coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDMWKB-UeVCRhFYdsr4N3ECbdlqTnXCLypJsEtsFJP6VbKj7vZrpOmB75TJ5TJbtuLkthcji9kSO5iPtQE7BP32rOnyei3DyCefNc5_ar_pWeBZfRisOE1Owe08CFcX5gk3F1BfdeTBVo3ay4VnRTDYQIcnh_NJl659uwqEMi9Cy-rsBzfRMJ4Jf_wctrRDYegY87U0lGwc9V_LNz6j1Zb22udpNz6unyAtX4aNtGqHHvKdsFIbgJG6r_UQOgwodvwM9SKkOKZHu44k', isbn: '978-0-521-84210-4', publisher: 'Cambridge University Press', pages: 520 });
+  const lib5 = await LibraryResource.create({ title: 'The Future of AI Governance', slug: 'ai-governance', author: 'Global Policy Review', year: '2023', type: 'journal', category: 'Political Science', description: 'An analysis of current and proposed frameworks for governing artificial intelligence.', coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDeeUhpyHPm_T9i8c55WuQ2WaHNB0iV3D9eaunNPEwfi9-t46EKIKHSh4YPRfT3SB-y285DxYvlLuFiwEDpA-iGUxjjl9jdthFCpmPZaEul2o5UyGXg6m7Pc7k89sQ7VxHs8CiuJyJFvPOT-GUVLGQgjxd_WPqIvlQfT13RakEPUVyE95QZv10X66Ov5P6e5cpk8AoE1XI4GSLXQgDilbncSDyHUQDDt-cz8hWxR3z-MH5yqWEAUWk2ayXzY7eLOm5SIozAuTg9Ivjk', issn: 'ISSN 2058-4016', publisher: 'Global Policy Review', pages: 28 });
+  const lib6 = await LibraryResource.create({ title: 'Linear Algebra — Session 1', slug: 'linear-algebra-session-1', author: 'MIT OpenCourseWare', year: '2023', type: 'video_lecture', category: 'Mathematics', description: 'The geometry of linear equations: row picture and column picture.', coverImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCmuiIE9TP9TiUUNPUwTdBp_z4tClOj-6zwFXEqjOZIDOEntTXUyjJhqaRrv0Dnba4E7lYLHaVeSn2Xwh_okFaMUj4tkekeyyxk1iy6miNu0cE_6nm_BXu_nzY_V6wIhf78x6bMwBMBkgz3_bHveYC8mdy3zC1e144WYTVaudsaF-XKsp6XseH1PCRIDX06x_BZUuC8YqGZQVaLXn6KCjTWcBun2A6IKBtbmh8yyCK4WBKgODk75V7ASj6ayArn-LiqTElgu53aiimS', series: '18.06 — MIT OCW', duration: '49:30' });
+
+  await SavedCollection.create({
+    userId: student._id,
+    resourceIds: [lib1._id, lib2._id, lib3._id, lib4._id, lib5._id, lib6._id],
+  });
+
+  await Notification.insertMany([
+    {
+      userId: student._id,
+      type: 'deadline',
+      message: `${a1.title} is due soon.`,
+      referenceId: a1._id,
+      referenceType: 'assignment',
+    },
+    {
+      userId: student._id,
+      type: 'deadline',
+      message: `${a5.title} deadline is in 2 days.`,
+      referenceId: a5._id,
+      referenceType: 'assignment',
+    },
+    {
+      userId: student._id,
+      type: 'grade',
+      message: 'Your submission for Dynamic Programming Lab has been graded.',
+      referenceId: sub2._id,
+      referenceType: 'submission',
+    },
+    {
+      userId: student._id,
+      type: 'announcement',
+      message: 'New course announcement posted in Advanced Algorithms & Data Structures.',
+      referenceId: courseADS._id,
+      referenceType: 'course',
+    },
+  ]);
+
+  stats.libraryResources = 6;
+  stats.resourceChapters = 18;
+  stats.readingProgress = 3;
+  stats.savedCollections = 1;
+  stats.notifications = 4;
 
   console.log('✅ Database seeded successfully!');
+  console.log('📊 Seed summary:', stats);
   console.log('📧 Student login: julian@scholarsync.edu / password123');
   console.log('📧 Instructor login: elena@scholarsync.edu / password123');
-  process.exit(0);
 };
 
-seed().catch((err) => { console.error('Seed failed:', err); process.exit(1); });
+seed()
+  .catch((err) => {
+    console.error('Seed failed:', err);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await mongoose.disconnect();
+    console.log('🔌 MongoDB disconnected');
+  });
