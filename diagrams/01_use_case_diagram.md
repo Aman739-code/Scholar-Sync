@@ -1,7 +1,8 @@
 # Use Case Diagram — ScholarSync LMS
 
 ## Overview
-This diagram captures all actor-system interactions identified from the UI analysis.
+This diagram provides a compact, high-level view of actor-system interactions in ScholarSync LMS.
+Detailed sub-use-cases and step-by-step flows are documented in the use case descriptions below.
 
 ### Actors
 - **Student** — Primary user who enrolls in courses, submits assignments, views grades, and uses the library
@@ -14,87 +15,31 @@ This diagram captures all actor-system interactions identified from the UI analy
 ## Main Use Case Diagram
 
 ```mermaid
-graph TB
-    subgraph Actors
-        S[👤 Student]
-        I[👨‍🏫 Instructor]
-        A[🔧 Admin]
-        SYS[⚙️ System]
+graph LR
+    %% Actors
+    S[👤 Student]
+    I[👨‍🏫 Instructor]
+    A[🔧 Admin]
+    SYS[⚙️ System]
+
+    %% System Boundary
+    subgraph LMS["ScholarSync LMS"]
+        UC1[Authenticate User]
+        UC2[Discover & Enroll in Courses]
+        UC3[Track Course Learning]
+        UC4[Manage Assignments]
+        UC4a[Upload Submission]
+        UC4b[Save Draft]
+        UC5[Review Grades & Feedback]
+        UC6[Access Library]
+        UC7[View Dashboard]
+        UC8[Create & Manage Course Content]
+        UC9[Grade Submissions]
+        UC10[Administer Platform]
+        UC11[Send Notifications & Recalculate GPA]
     end
 
-    subgraph "Authentication Module"
-        UC1[Login with Email/Student ID]
-        UC2[Signup with University Email]
-        UC3[SSO Login - Google/Outlook]
-        UC4[Forgot Password]
-        UC5[Logout]
-    end
-
-    subgraph "Course Management Module"
-        UC6[Browse Course Catalog]
-        UC7[Search Courses]
-        UC8[Filter Courses by Track]
-        UC9[View Course Details]
-        UC10[Enroll in Course]
-        UC11[Track Course Progress]
-        UC12[View Course Modules]
-        UC13[View Course Announcements]
-        UC14[Create Course]
-        UC15[Update Course Content]
-        UC16[Post Announcement]
-    end
-
-    subgraph "Assignment Module"
-        UC17[View Assignments List]
-        UC18[Filter Assignments by Status]
-        UC19[View Assignment Details]
-        UC20[Submit Assignment]
-        UC21[Save Assignment Draft]
-        UC22[Upload Submission Files]
-        UC23[View Assignment Rubric]
-        UC24[Create Assignment]
-        UC25[Set Assignment Deadline]
-        UC26[View Submissions]
-    end
-
-    subgraph "Grading Module"
-        UC27[View Grades Overview]
-        UC28[View GPA and Rank]
-        UC29[View Grade Distribution]
-        UC30[View Course Grade Breakdown]
-        UC31[View Instructor Feedback]
-        UC32[Grade Assignment]
-        UC33[Provide Feedback]
-        UC34[Calculate GPA]
-    end
-
-    subgraph "Library Module"
-        UC35[Browse Library Resources]
-        UC36[Search Resources]
-        UC37[Filter Resources by Type]
-        UC38[View Resource Details]
-        UC39[Track Reading Progress]
-        UC40[Save to Collection]
-        UC41[Download Resource]
-        UC42[Watch Video Lecture]
-        UC43[Add Library Resource]
-    end
-
-    subgraph "Dashboard Module"
-        UC44[View Dashboard Overview]
-        UC45[View Enrolled Courses Summary]
-        UC46[View Upcoming Assignments]
-        UC47[View Recent Grades]
-        UC48[View Weekly Schedule]
-    end
-
-    subgraph "Notification Module"
-        UC49[Send Deadline Reminder]
-        UC50[Send Grade Notification]
-        UC51[Send Announcement Notification]
-    end
-
-    %% Student connections
+    %% Actor → Use Case relations
     S --> UC1
     S --> UC2
     S --> UC3
@@ -102,66 +47,28 @@ graph TB
     S --> UC5
     S --> UC6
     S --> UC7
-    S --> UC8
-    S --> UC9
-    S --> UC10
-    S --> UC11
-    S --> UC12
-    S --> UC13
-    S --> UC17
-    S --> UC18
-    S --> UC19
-    S --> UC20
-    S --> UC21
-    S --> UC22
-    S --> UC23
-    S --> UC27
-    S --> UC28
-    S --> UC29
-    S --> UC30
-    S --> UC31
-    S --> UC35
-    S --> UC36
-    S --> UC37
-    S --> UC38
-    S --> UC39
-    S --> UC40
-    S --> UC41
-    S --> UC42
-    S --> UC44
-    S --> UC45
-    S --> UC46
-    S --> UC47
-    S --> UC48
 
-    %% Instructor connections
     I --> UC1
-    I --> UC5
-    I --> UC14
-    I --> UC15
-    I --> UC16
-    I --> UC24
-    I --> UC25
-    I --> UC26
-    I --> UC32
-    I --> UC33
-    I --> UC43
+    I --> UC8
+    I --> UC9
 
-    %% Admin connections
     A --> UC1
-    A --> UC5
-    A --> UC43
+    A --> UC10
 
-    %% System connections
-    SYS --> UC34
-    SYS --> UC49
-    SYS --> UC50
-    SYS --> UC51
+    SYS --> UC11
+
+    %% Include / Extend (lightweight)
+    UC4 -->|<<include>>| UC4a
+    UC4 -.->|<<extend>>| UC4b
+    UC9 --> UC5
 ```
 
 ---
 
 ## Detailed Use Case Descriptions
+
+> **Note:** The main diagram uses grouped high-level use cases for readability.
+> Detailed entries such as UC10, UC20, and UC32 below represent expanded sub-use-cases of those high-level areas.
 
 ### UC1: Login with Email/Student ID
 | Field | Description |
