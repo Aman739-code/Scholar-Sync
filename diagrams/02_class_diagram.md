@@ -26,453 +26,130 @@
 
 ---
 
-## Complete Class Diagram
+## Class Diagram
+
+This diagram presents a high-level structural view of core domain entities and their primary relationships.
+Implementation-level classes (factories, repositories, notifiers, enums, and helper value objects) are intentionally omitted here to keep the diagram readable.
 
 ```mermaid
 classDiagram
-    direction TB
+    direction LR
 
-    %% ============ INTERFACES ============
-    class ISearchable {
-        <<interface>>
-        +search(query: String) List
-    }
-
-    class ISubmittable {
-        <<interface>>
-        +submit(files: File[], note: String) Submission
-        +saveDraft(data: Object) void
-    }
-
-    class IGradable {
-        <<interface>>
-        +grade(score: Number, feedback: String) Grade
-        +getRubric() Rubric
-    }
-
-    class IGradingStrategy {
-        <<interface>>
-        +calculateFinalGrade(grades: Grade[]) Number
-    }
-
-    class IRepository~T~ {
-        <<interface>>
-        +findById(id: String) T
-        +findAll(filter: Object) List~T~
-        +create(entity: T) T
-        +update(id: String, data: Object) T
-        +delete(id: String) Boolean
-    }
-
-    class INotificationObserver {
-        <<interface>>
-        +onEvent(event: NotificationEvent) void
-    }
-
-    %% ============ ABSTRACT CLASSES ============
+    %% Core abstractions
     class User {
         <<abstract>>
-        -_id: ObjectId
-        -name: String
-        -email: String
-        -passwordHash: String
-        -profileImage: String
-        -createdAt: Date
-        -updatedAt: Date
-        +login(email: String, password: String) AuthToken
-        +logout() void
-        +updateProfile(data: Object) User
-        +getRole()* String
+        +id: ObjectId
+        +name: String
+        +email: String
+        +getRole() String
     }
 
     class LibraryResource {
         <<abstract>>
-        -_id: ObjectId
-        -title: String
-        -author: String
-        -year: String
-        -category: String
-        -description: String
-        -coverImage: String
-        -addedDate: Date
-        +getType()* String
-        +getProgress(userId: String)* Number
-        +getDetails() Object
+        +id: ObjectId
+        +title: String
+        +author: String
+        +getType() String
     }
 
-    %% ============ USER HIERARCHY ============
+    %% User hierarchy
     class Student {
-        -studentId: String
-        -department: String
-        -year: Number
-        -enrolledCourses: Course[]
-        -gpa: Number
-        -rank: String
         +enrollInCourse(courseId: String) Enrollment
-        +getEnrolledCourses() Course[]
-        +getGPA() Number
-        +getRank() String
-        +getRole() String
     }
 
     class Instructor {
-        -facultyId: String
-        -department: String
-        -specialization: String
-        -bio: String
-        -courses: Course[]
         +createCourse(data: Object) Course
         +createAssignment(courseId: String, data: Object) Assignment
         +gradeSubmission(submissionId: String, grade: Grade) void
-        +postAnnouncement(courseId: String, text: String) Announcement
-        +getRole() String
     }
 
     class Admin {
-        -adminLevel: String
-        -permissions: String[]
         +manageUsers() void
-        +manageResources() void
-        +viewAnalytics() Object
-        +getRole() String
     }
 
-    %% ============ COURSE DOMAIN ============
+    %% Course & enrollment
     class Course {
-        -_id: ObjectId
-        -title: String
+        +id: ObjectId
+        +title: String
         -code: String
-        -description: String
-        -instructor: Instructor
-        -bannerImage: String
-        -units: Number
-        -semester: String
-        -schedule: String
-        -track: String
-        -modules: Module[]
-        -announcements: Announcement[]
-        -enrolledStudents: Student[]
-        -maxCapacity: Number
-        +addModule(module: Module) void
         +getProgress(studentId: String) Number
-        +getEnrollmentCount() Number
-        +isEnrollmentOpen() Boolean
     }
 
     class Module {
-        -_id: ObjectId
+        +id: ObjectId
         -title: String
-        -courseId: ObjectId
         -orderIndex: Number
-        -duration: String
-        -status: ModuleStatus
-        -content: String[]
-        +getStatus(studentId: String) ModuleStatus
-        +markComplete(studentId: String) void
     }
 
     class Enrollment {
-        -_id: ObjectId
-        -student: Student
-        -course: Course
-        -enrolledDate: Date
+        +id: ObjectId
         -progress: Number
-        -status: EnrollmentStatus
-        -completedModules: ObjectId[]
-        +updateProgress() void
         +getCompletionPercentage() Number
     }
 
-    class Announcement {
-        -_id: ObjectId
-        -courseId: ObjectId
-        -text: String
-        -postedBy: Instructor
-        -postedDate: Date
-        +getFormattedDate() String
-    }
-
-    %% ============ ASSIGNMENT DOMAIN ============
+    %% Assignments & grading
     class Assignment {
-        -_id: ObjectId
+        +id: ObjectId
         -title: String
-        -course: Course
-        -description: String
-        -type: AssignmentType
         -deadline: Date
         -points: Number
-        -status: AssignmentStatus
-        -requirements: String[]
-        -rubric: RubricCriteria[]
-        -resources: AssignmentResource[]
-        -instructorNote: String
         +isOverdue() Boolean
-        +getDaysRemaining() Number
-        +getRubric() RubricCriteria[]
-    }
-
-    class RubricCriteria {
-        -criteria: String
-        -weight: Number
-        -description: String
-        +getWeightPercentage() String
-    }
-
-    class AssignmentResource {
-        -name: String
-        -type: String
-        -url: String
     }
 
     class Submission {
-        -_id: ObjectId
-        -assignment: Assignment
-        -student: Student
-        -files: FileAttachment[]
-        -note: String
+        +id: ObjectId
         -submittedAt: Date
-        -status: SubmissionStatus
-        -grade: Grade
         +isLate() Boolean
-        +getTimestamp() String
     }
 
-    class FileAttachment {
-        -_id: ObjectId
-        -filename: String
-        -mimetype: String
-        -size: Number
-        -url: String
-        -uploadedAt: Date
-    }
-
-    %% ============ GRADE DOMAIN ============
     class Grade {
-        -_id: ObjectId
-        -student: Student
-        -course: Course
-        -assignment: Assignment
+        +id: ObjectId
         -score: Number
         -maxScore: Number
-        -letterGrade: String
         -feedback: String
-        -gradedBy: Instructor
-        -gradedAt: Date
         +getPercentage() Number
-        +getLetterGrade() String
     }
 
-    class GradeCalculator {
-        -strategy: IGradingStrategy
-        +setStrategy(strategy: IGradingStrategy) void
-        +calculateGPA(grades: Grade[]) Number
-        +calculateCourseGrade(courseId: String, studentId: String) Grade
-        +getRank(gpa: Number, cohortGPAs: Number[]) String
-    }
-
-    class WeightedGradingStrategy {
-        -weights: Object
-        +calculateFinalGrade(grades: Grade[]) Number
-    }
-
-    class CurveGradingStrategy {
-        -curveAmount: Number
-        +calculateFinalGrade(grades: Grade[]) Number
-    }
-
-    %% ============ LIBRARY DOMAIN ============
+    %% Library
     class Textbook {
-        -pages: Number
-        -isbn: String
-        -publisher: String
-        -chapters: Chapter[]
         +getType() String
-        +getProgress(userId: String) Number
-        +getReadingProgress(userId: String) ReadingProgress
-    }
-
-    class Journal {
-        -issn: String
-        -publisher: String
-        -volume: String
-        -articles: Chapter[]
-        +getType() String
-        +getProgress(userId: String) Number
     }
 
     class VideoLecture {
-        -duration: String
-        -series: String
-        -chapters: VideoChapter[]
-        -resolution: String
-        -hasTranscript: Boolean
         +getType() String
-        +getProgress(userId: String) Number
-        +getWatchProgress(userId: String) WatchProgress
-    }
-
-    class Chapter {
-        -title: String
-        -pages: String
-        -isRead: Boolean
-    }
-
-    class VideoChapter {
-        -title: String
-        -timestamp: String
-        -isWatched: Boolean
-    }
-
-    class ReadingProgress {
-        -userId: ObjectId
-        -resourceId: ObjectId
-        -currentPage: Number
-        -totalPages: Number
-        -lastAccessed: Date
-        +getPercentage() Number
-    }
-
-    class WatchProgress {
-        -userId: ObjectId
-        -resourceId: ObjectId
-        -currentTime: String
-        -totalDuration: String
-        -lastWatched: Date
-        +getPercentage() Number
-    }
-
-    class SavedCollection {
-        -_id: ObjectId
-        -userId: ObjectId
-        -resources: LibraryResource[]
-        -createdAt: Date
-        +addResource(resource: LibraryResource) void
-        +removeResource(resourceId: String) void
-    }
-
-    class ResourceFactory {
-        +createResource(type: String, data: Object)$ LibraryResource
-    }
-
-    %% ============ NOTIFICATION DOMAIN ============
-    class NotificationEvent {
-        -type: NotificationType
-        -payload: Object
-        -timestamp: Date
     }
 
     class NotificationService {
-        -observers: INotificationObserver[]
-        +subscribe(observer: INotificationObserver) void
-        +unsubscribe(observer: INotificationObserver) void
-        +notify(event: NotificationEvent) void
+        +notify(eventType: String, payload: Object) void
     }
 
-    class EmailNotifier {
-        +onEvent(event: NotificationEvent) void
-    }
-
-    class InAppNotifier {
-        +onEvent(event: NotificationEvent) void
-    }
-
-    %% ============ ENUMS ============
-    class ModuleStatus {
-        <<enumeration>>
-        COMPLETED
-        CURRENT
-        UPCOMING
-    }
-
-    class EnrollmentStatus {
-        <<enumeration>>
-        ACTIVE
-        COMPLETED
-        DROPPED
-    }
-
-    class AssignmentType {
-        <<enumeration>>
-        LAB
-        QUIZ
-        PROJECT
-        REFLECTION
-        SUBMISSION
-    }
-
-    class AssignmentStatus {
-        <<enumeration>>
-        AVAILABLE
-        DUE_SOON
-        URGENT
-        SUBMITTED
-        GRADED
-    }
-
-    class SubmissionStatus {
-        <<enumeration>>
-        DRAFT
-        SUBMITTED
-        LATE
-        GRADED
-    }
-
-    class NotificationType {
-        <<enumeration>>
-        DEADLINE_REMINDER
-        GRADE_POSTED
-        ANNOUNCEMENT
-        ENROLLMENT_CONFIRMED
-    }
-
-    %% ============ RELATIONSHIPS ============
+    %% Inheritance
     User <|-- Student
     User <|-- Instructor
     User <|-- Admin
 
     LibraryResource <|-- Textbook
-    LibraryResource <|-- Journal
     LibraryResource <|-- VideoLecture
 
-    IGradingStrategy <|.. WeightedGradingStrategy
-    IGradingStrategy <|.. CurveGradingStrategy
-
-    INotificationObserver <|.. EmailNotifier
-    INotificationObserver <|.. InAppNotifier
-
+    %% Core associations
     Course "1" --> "1" Instructor : taught by
     Course "1" --> "*" Module : contains
-    Course "1" --> "*" Announcement : has
     Course "1" --> "*" Assignment : has
 
     Student "1" --> "*" Enrollment : has
     Enrollment "*" --> "1" Course : for
 
-    Assignment "1" --> "*" RubricCriteria : has
-    Assignment "1" --> "*" AssignmentResource : includes
     Assignment "1" --> "*" Submission : receives
 
     Submission "1" --> "1" Student : by
-    Submission "1" --> "*" FileAttachment : contains
     Submission "1" --> "0..1" Grade : has
 
     Grade "*" --> "1" Student : for
     Grade "*" --> "1" Instructor : by
 
-    GradeCalculator --> IGradingStrategy : uses
-
-    Textbook "1" --> "*" Chapter : contains
-    Journal "1" --> "*" Chapter : contains
-    VideoLecture "1" --> "*" VideoChapter : contains
-
-    ReadingProgress "*" --> "1" LibraryResource : tracks
-    WatchProgress "*" --> "1" VideoLecture : tracks
-    SavedCollection "*" --> "*" LibraryResource : contains
-
-    NotificationService --> "*" INotificationObserver : notifies
-    NotificationService --> NotificationEvent : dispatches
-
-    ResourceFactory ..> LibraryResource : creates
+    NotificationService ..> Assignment : deadline reminders
+    NotificationService ..> Grade : grade notifications
+    NotificationService ..> Course : announcement notifications
 ```
 
 ---
