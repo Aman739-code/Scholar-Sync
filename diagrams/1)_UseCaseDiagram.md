@@ -104,4 +104,3 @@ graph LR
 | **Precondition** | Student has submitted the assignment |
 | **Main Flow** | 1. Instructor views submissions 2. Reviews student work 3. Assigns grade per rubric criteria 4. Writes feedback 5. Publishes grade |
 | **Postcondition** | Grade and feedback visible to student, GPA recalculated |
-
