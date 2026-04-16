@@ -17,10 +17,10 @@ Detailed sub-use-cases and step-by-step flows are documented in the use case des
 ```mermaid
 graph LR
     %% Actors
-    S[👤 Student]
-    I[👨‍🏫 Instructor]
-    A[🔧 Admin]
-    SYS[⚙️ System]
+    S[ Student]
+    I[ Instructor]
+    A[ Admin]
+    SYS[ System]
 
     %% System Boundary
     subgraph LMS["ScholarSync LMS"]
