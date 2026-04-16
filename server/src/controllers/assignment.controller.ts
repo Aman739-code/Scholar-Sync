@@ -9,7 +9,7 @@ export const getAssignments = async (req: Request, res: Response, next: NextFunc
     const filter: any = {};
     if (courseId) filter.courseId = courseId;
 
-    // For students, only show assignments from enrolled courses
+    // For students, only show assignments from enrolled course
     if (req.user!.role === 'student') {
       const enrollments = await Enrollment.find({ studentId: req.user!.userId, status: 'active' });
       const courseIds = enrollments.map(e => e.courseId);
